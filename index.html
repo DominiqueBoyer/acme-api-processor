@@ -137,12 +137,24 @@
           });
         };
         const processedOfferings = processOfferings({companies, products, offerings});
-        console.log(processedOfferings);
+        // console.log(processedOfferings);
         const html4 = processedOfferings.map(offer =>{
           return `<li>${offer.company.name} is offering $${offer.price} for product: ${offer.product.name}</li>`
         }).join('');
 
         document.querySelector('#question4').innerHTML = html4;
+
+
+      //returns the companies that have n or more offerings
+      const companiesByNumberOfOfferings = (companies, offerings, number) =>{
+        const companyOffers = companies.map(company =>{
+          const offers = offerings.filter(offer => offer.companyId === company.id)
+          return {...company, offers};
+        });
+        return companyOffers.filter(company => company.offers.length >= number)
+      }
+      const threeOrMoreOfferings = companiesByNumberOfOfferings(companies, offerings, 3);
+      console.log(threeOrMoreOfferings);
 
       }
       loadData();
