@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js'></script>
+  </head>
+  <body>
+    <script>
+
+      const loadData = async() => {
+        const urls = [
+          'https://acme-users-api-rev.herokuapp.com/api/companies',
+          'https://acme-users-api-rev.herokuapp.com/api/products',
+          'https://acme-users-api-rev.herokuapp.com/api/offerings'
+        ];
+        const responses = await Promise.all(urls.map( url=> axios.get(url)));
+
+        const [companies, products, offerings ] = await Promise.all(responses.map( response => response.data));
+
+
+
+
+        //return products within a price range
+        const findProductsInPriceRange = (products, obj)=>{
+          const max = obj.max;
+          return products.filter(product => product.suggestedPrice <= max);
+        }
+        const productsInPriceRange = findProductsInPriceRange (products, {min: 1, max: 15});
+        console.log(productsInPriceRange);
+
+
+        //returns object where key is first etter of compnay name
+        //value for each key is the array of those companies
+        const groupCompaniesByLetter = (companies) => {
+          let obj = {};
+          let sorted = companies.map(company => {
+            if(obj[company.name[0]]){
+              obj[company.name[0]].push(company);
+            }
+            else{
+              obj[company.name[0]]=[company]
+
+            }
+          });
+          return obj
+        }
+        const groupedCompaniesByLetter = groupCompaniesByLetter(companies);
+        console.log(groupedCompaniesByLetter);
+
+
+        //returns object where key is a state
+        //value for each key is the array of those companies in that state
+        const groupCompaniesByState = (companies) => {
+          let obj = {};
+          const sort = companies.map(company =>{
+            if(!obj[company.state]){
+              obj[company.state] = [company];
+            }
+            else{
+              obj[company.state].push(company)
+            }
+          })
+          return obj;
+        }
+        const groupedCompaniesByState = groupCompaniesByState(companies);
+        console.log(groupedCompaniesByState);
+
+
+        //returns an array of the offerings with each offering having a company and product
+        const processOfferings = ({companies, products, offerings}) => {
+          
+
+        };
+        const processedOfferings = processOfferings({companies, products, offerings});
+        console.log(processedOfferings);
+
+      }
+      loadData();
+
+    </script>
+  </body>
+</html>
