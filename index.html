@@ -5,18 +5,24 @@
 
 
     <style>
-      /* #container{
+      #container{
         display: flex;
         flex-wrap: wrap;
-        width: 45%
-      } */
+      }
 
-    #container div {
-      border: solid 1px black;
-      margin-bottom: 5px;
-      padding: 0.5rem;
+      #container div {
+        border: solid 1px black;
+        margin: 5px;
+        padding: 1rem;
+        width: calc(50% - 2rem);
 
-    }
+      }
+      body{
+        padding: 1rem;
+      }
+      h1{
+        text-align: center;
+      }
     </style>
   </head>
   <body>
@@ -25,6 +31,10 @@
       <div class='question1'>
         <h2>Products in Price Range of $1 - $15</h2>
         <ul id='question1'></ul>
+      </div>
+      <div class='question6'>
+        <h2>Average Price for Each Offering</h2>
+        <ul id='question6'></ul>
       </div>
       <div class='question2'>
         <h2>Grouping Companies by Letter</h2>
@@ -42,10 +52,7 @@
         <h2 id='title'>Companies with n or more offerings</h2>
         <ul id='question5'></ul>
       </div>
-      <div class='question6'>
-        <h2>Average Price for Each Offering</h2>
-        <ul id='question6'></ul>
-      </div>
+
     </div>
 
 
