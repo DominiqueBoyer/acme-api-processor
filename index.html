@@ -1,8 +1,42 @@
 <html>
   <head>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js'></script>
+
+    <style>
+    body div{
+      border: solid 1px black;
+    }
+    </style>
   </head>
   <body>
+    <h1>My Weekend Project</h1>
+    <div class='question1'>
+      <h2>Finding Products in Price Range $1-$15</h2>
+      <ul id='question1'></ul>
+    </div>
+    <div class='question2'>
+      <h2>Grouping Companies by Letter</h2>
+      <ul id='question2'></ul>
+    </div>
+    <div class='question3'>
+      <h2>Grouping Companies by State</h2>
+      <ul id='question3'></ul>
+    </div>
+    <div class='question4'>
+      <h2>Offeringss......</h2>
+      <ul id='question4'></ul>
+    </div>
+    <div class='question5'>
+      <h2>Companies with n or more offerings</h2>
+      <ul id='question5'></ul>
+    </div>
+    <div class='question6'>
+      <h2>Average Price for Each Offering</h2>
+      <ul id='question6'></ul>
+    </div>
+
+
+
     <script>
 
       const loadData = async() => {
@@ -25,6 +59,10 @@
         }
         const productsInPriceRange = findProductsInPriceRange (products, {min: 1, max: 15});
         console.log(productsInPriceRange);
+        const html1 = productsInPriceRange.map(product =>{
+          return `<li>Product: ${product.name}  at a suggested price of: $${product.suggestedPrice}</li>`
+        }).join('');
+        document.querySelector('#question1').innerHTML = html1
 
 
         //returns object where key is first etter of compnay name
@@ -37,13 +75,25 @@
             }
             else{
               obj[company.name[0]]=[company]
-
             }
           });
           return obj
         }
         const groupedCompaniesByLetter = groupCompaniesByLetter(companies);
         console.log(groupedCompaniesByLetter);
+        const keys = Object.keys(groupedCompaniesByLetter)
+        let arr = [];
+        arr.push(groupedCompaniesByLetter)
+        const html2 = arr.map(object => {
+          return keys.map(key =>{
+            const value = object[key]
+            const companies = value.map(company =>{
+              return `<li>${company.name}</li>`
+            }).join('');
+            return `<li>${key}:<ul>${companies}</ul></li>`
+          }).join('');
+        }).join('');
+        document.querySelector('#question2').innerHTML = html2
 
 
         //returns object where key is a state
@@ -62,11 +112,23 @@
         }
         const groupedCompaniesByState = groupCompaniesByState(companies);
         console.log(groupedCompaniesByState);
+        const stateKeys = Object.keys(groupedCompaniesByState);
+        let stateArr =[];
+        stateArr.push(groupedCompaniesByState);
+        const html3 = stateArr.map(object => {
+          return stateKeys.map(key => {
+            const companies = object[key].map(company => {
+              return `<li>${company.name}</li>`
+            }).join('');
+            return `<li>${key}: <ul>${companies}</ul></li>`
+          }).join('');
+        }).join('');
+        document.querySelector('#question3').innerHTML = html3
 
 
         //returns an array of the offerings with each offering having a company and product
         const processOfferings = ({companies, products, offerings}) => {
-          
+
 
         };
         const processedOfferings = processOfferings({companies, products, offerings});
