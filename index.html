@@ -58,7 +58,7 @@
           return products.filter(product => product.suggestedPrice <= max);
         }
         const productsInPriceRange = findProductsInPriceRange (products, {min: 1, max: 15});
-        console.log(productsInPriceRange);
+        // console.log(productsInPriceRange);
         const html1 = productsInPriceRange.map(product =>{
           return `<li>Product: ${product.name}  at a suggested price of: $${product.suggestedPrice}</li>`
         }).join('');
@@ -80,7 +80,7 @@
           return obj
         }
         const groupedCompaniesByLetter = groupCompaniesByLetter(companies);
-        console.log(groupedCompaniesByLetter);
+        // console.log(groupedCompaniesByLetter);
         const keys = Object.keys(groupedCompaniesByLetter)
         let arr = [];
         arr.push(groupedCompaniesByLetter)
@@ -111,7 +111,7 @@
           return obj;
         }
         const groupedCompaniesByState = groupCompaniesByState(companies);
-        console.log(groupedCompaniesByState);
+        // console.log(groupedCompaniesByState);
         const stateKeys = Object.keys(groupedCompaniesByState);
         let stateArr =[];
         stateArr.push(groupedCompaniesByState);
@@ -128,10 +128,14 @@
 
         //returns an array of the offerings with each offering having a company and product
         const processOfferings = ({companies, products, offerings}) => {
-
-
+          return offerings.map(offer => {
+            const company = companies.find( company => company.id === offer.companyId);
+            const product = products.find( product => product.id === offer.productId );
+            return {... offer, company, product};
+          });
         };
         const processedOfferings = processOfferings({companies, products, offerings});
+        console.log(products)
         console.log(processedOfferings);
 
       }
