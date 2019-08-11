@@ -1,6 +1,8 @@
 <html>
   <head>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js'></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 
     <style>
       /* #container{
@@ -21,7 +23,7 @@
     <h1>My Weekend Project</h1>
     <div id='container'>
       <div class='question1'>
-        <h2>Finding Products in Price Range $1-$15</h2>
+        <h2>Products in Price Range of $1 - $15</h2>
         <ul id='question1'></ul>
       </div>
       <div class='question2'>
@@ -70,9 +72,15 @@
         }
         const productsInPriceRange = findProductsInPriceRange (products, {min: 1, max: 15});
         // console.log(productsInPriceRange);
-        const html1 = productsInPriceRange.map(product =>{
-          return `<li>Product: ${product.name}  at a suggested price of: <span style='color: green'>$${product.suggestedPrice}</span></li>`
+        const product = productsInPriceRange.map(product =>{
+          return `<tr><td>${product.name}</td><td>$${product.suggestedPrice}</td></tr>`
         }).join('');
+        const html1 = `<table class="table table-striped">
+        <tr>
+        <th>Product</th>
+        <th>Price</th>
+        </tr> ${product}
+        </table>`
         document.querySelector('#question1').innerHTML = html1;
 
 
@@ -154,31 +162,48 @@
         document.querySelector('#question4').innerHTML = html4;
 
 
-      //returns the companies that have n or more offerings
-      const companiesByNumberOfOfferings = (companies, offerings, number) =>{
-        document.querySelector('#title').innerHTML = `Companies with ${number} or more offerings`;
-        const companyOffers = companies.map(company =>{
-          const offers = offerings.filter(offer => offer.companyId === company.id)
-          return {...company, offers};
-        });
-        return companyOffers.filter(company => company.offers.length >= number)
-      }
-      const threeOrMoreOfferings = companiesByNumberOfOfferings(companies, offerings, 3);
-      console.log(threeOrMoreOfferings);
-      const html5 = threeOrMoreOfferings.map(company => {
-        return `<li> <span style='color: blue; font-weight:bold'>${company.name}</span> made ${company.offers.length} offers</li>`
-      }).join('');
-      document.querySelector('#question5').innerHTML = html5;
+        //returns the companies that have n or more offerings
+        const companiesByNumberOfOfferings = (companies, offerings, number) =>{
+          document.querySelector('#title').innerHTML = `Companies with ${number} or more offerings`;
+          const companyOffers = companies.map(company =>{
+            const offers = offerings.filter(offer => offer.companyId === company.id)
+            return {...company, offers};
+          });
+          return companyOffers.filter(company => company.offers.length >= number)
+        }
+        const threeOrMoreOfferings = companiesByNumberOfOfferings(companies, offerings, 3);
+        // console.log(threeOrMoreOfferings);
+        const company = threeOrMoreOfferings.map(company => {
+          return `<tr> <td>${company.name}</td><td> ${company.offers.length}</td></tr>`
+        }).join('');
+        const html5 = `<table class='table table-striped'>
+        <tr><th>Company</th>
+        <th># of Offers</th></tr> ${company}
+        </table>`;
+        document.querySelector('#question5').innerHTML = html5;
 
 
-      //returns array of products where each product has the average proce of it's offerings
-      const processProducts = ({products, offerings}) =>{
+        //returns array of products where each product has the average price of it's offerings
+        const processProducts = ({products, offerings}) =>{
+          return products.map(product =>{
+            const offers = offerings.filter(offer => offer.productId === product.id);
+            const offerAverage = offers.reduce(((sum, offer) => sum + offer.price), 0)/(offers.length);
+            return {...product, offerAverage}
+          });
+        };
+        const processedProducts = processProducts({products, offerings});
+        console.log(processedProducts);
+        const productsAverages = processedProducts.map(product => {
+          return `<tr><td>${product.name}</td><td>${product.offerAverage}</td></tr>`
+        }).join('');
+        const html6 = `<table class='table table-striped'>
+        <tr><th>Product Name</th>
+        <th>Average Price</th></tr> ${productsAverages}
+        </table>`;
+        document.querySelector('#question6').innerHTML = html6;
 
-      };
-      const processedProducts = processProducts({products, offerings});
-      console.log(processedProducts);
 
-      }
+      }  //end of loadData bracket
 
       loadData();
 
