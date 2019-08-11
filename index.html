@@ -5,6 +5,8 @@
     <style>
     body div{
       border: solid 1px black;
+      margin-bottom: 5px;
+      padding: 0.5rem
     }
     </style>
   </head>
@@ -23,7 +25,7 @@
       <ul id='question3'></ul>
     </div>
     <div class='question4'>
-      <h2>Offeringss......</h2>
+      <h2>Offers made by Companies for Product </h2>
       <ul id='question4'></ul>
     </div>
     <div class='question5'>
@@ -62,7 +64,7 @@
         const html1 = productsInPriceRange.map(product =>{
           return `<li>Product: ${product.name}  at a suggested price of: $${product.suggestedPrice}</li>`
         }).join('');
-        document.querySelector('#question1').innerHTML = html1
+        document.querySelector('#question1').innerHTML = html1;
 
 
         //returns object where key is first etter of compnay name
@@ -74,10 +76,10 @@
               obj[company.name[0]].push(company);
             }
             else{
-              obj[company.name[0]]=[company]
+              obj[company.name[0]]=[company];
             }
           });
-          return obj
+          return obj;
         }
         const groupedCompaniesByLetter = groupCompaniesByLetter(companies);
         // console.log(groupedCompaniesByLetter);
@@ -93,7 +95,7 @@
             return `<li>${key}:<ul>${companies}</ul></li>`
           }).join('');
         }).join('');
-        document.querySelector('#question2').innerHTML = html2
+        document.querySelector('#question2').innerHTML = html2;
 
 
         //returns object where key is a state
@@ -135,8 +137,12 @@
           });
         };
         const processedOfferings = processOfferings({companies, products, offerings});
-        console.log(products)
         console.log(processedOfferings);
+        const html4 = processedOfferings.map(offer =>{
+          return `<li>${offer.company.name} is offering $${offer.price} for product: ${offer.product.name}</li>`
+        }).join('');
+
+        document.querySelector('#question4').innerHTML = html4;
 
       }
       loadData();
