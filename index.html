@@ -62,7 +62,7 @@
         const productsInPriceRange = findProductsInPriceRange (products, {min: 1, max: 15});
         // console.log(productsInPriceRange);
         const html1 = productsInPriceRange.map(product =>{
-          return `<li>Product: ${product.name}  at a suggested price of: $${product.suggestedPrice}</li>`
+          return `<li>Product: ${product.name}  at a suggested price of: <span style='color: green'>$${product.suggestedPrice}</span></li>`
         }).join('');
         document.querySelector('#question1').innerHTML = html1;
 
@@ -139,7 +139,7 @@
         const processedOfferings = processOfferings({companies, products, offerings});
         // console.log(processedOfferings);
         const html4 = processedOfferings.map(offer =>{
-          return `<li>${offer.company.name} is offering $${offer.price} for product: ${offer.product.name}</li>`
+          return `<li><span style='color: blue; font-weight:bold'>${offer.company.name}</span> is offering <span style='color: green'>$${offer.price}</span> for product: ${offer.product.name}</li>`
         }).join('');
 
         document.querySelector('#question4').innerHTML = html4;
@@ -155,6 +155,12 @@
       }
       const threeOrMoreOfferings = companiesByNumberOfOfferings(companies, offerings, 3);
       console.log(threeOrMoreOfferings);
+      const html5 = threeOrMoreOfferings.map(company => {
+        return `<li> <span style='color: blue; font-weight:bold'>${company.name}</span> made ${company.offers.length} offers</li>`
+      }).join('');
+
+
+      document.querySelector('#question5').innerHTML = html5;
 
       }
       loadData();
