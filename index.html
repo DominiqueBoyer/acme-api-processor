@@ -137,7 +137,6 @@
           return obj;
         }
         const groupedCompaniesByState = groupCompaniesByState(companies);
-        // console.log(groupedCompaniesByState);
         const stateKeys = Object.keys(groupedCompaniesByState);
         let stateArr =[];
         stateArr.push(groupedCompaniesByState);
@@ -152,6 +151,7 @@
         document.querySelector('#question3').innerHTML = html3
 
 
+        //This one needs to be reworked/tweaked
         //returns an array of the offerings with each offering having a company and product
         const processOfferings = ({companies, products, offerings}) => {
           return offerings.map(offer => {
@@ -161,7 +161,6 @@
           });
         };
         const processedOfferings = processOfferings({companies, products, offerings});
-        // console.log(processedOfferings);
         const html4 = processedOfferings.map(offer =>{
           return `<li><span style='color: blue; font-weight:bold'>${offer.company.name}</span> is offering <span style='color: green'>$${offer.price}</span> for product: ${offer.product.name}</li>`
         }).join('');
@@ -190,6 +189,7 @@
         document.querySelector('#question5').innerHTML = html5;
 
 
+        //This one needs to be reworked/tweaked
         //returns array of products where each product has the average price of it's offerings
         const processProducts = ({products, offerings}) =>{
           return products.map(product =>{
@@ -199,7 +199,7 @@
           });
         };
         const processedProducts = processProducts({products, offerings});
-        console.log(processedProducts);
+        console.log({products, offerings});
         const productsAverages = processedProducts.map(product => {
           return `<tr><td>${product.name}</td><td>${product.offerAverage}</td></tr>`
         }).join('');
